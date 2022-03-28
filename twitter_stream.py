@@ -5,7 +5,7 @@ import json
 # To set your environment variables in your terminal run the following line:
 # export 'BEARER_TOKEN'='<your_bearer_token>'
 bearer_token = os.environ.get("BEARER_TOKEN")
-
+#params = {"lang": "en"}
 
 def create_url():
     return "https://api.twitter.com/2/tweets/sample/stream"
@@ -23,11 +23,10 @@ def bearer_oauth(r):
 
 def connect_to_endpoint(url):
     response = requests.request("GET", url, auth=bearer_oauth, stream=True)
-    print(response.status_code)
     for response_line in response.iter_lines():
         if response_line:
             json_response = json.loads(response_line)
-            print(json.dumps(json_response, indent=4, sort_keys=True))
+            print(json.dumps(json_response, sort_keys=True))
     if response.status_code != 200:
         raise Exception(
             "Request returned an error: {} {}".format(
